@@ -222,13 +222,13 @@ function CreateTemplateSheet({
               {/* ── Step 1: Options ── */}
               {step === 'options' && (
                 <div className="divide-y divide-divider/40">
-                  <OptionRow
+                  {/* <OptionRow
                     icon={<Sparkles className="w-5 h-5" strokeWidth={1.8} />}
                     label="Buat dengan AI"
                     description="Generate template dari deskripsi atau topik."
                     recommended
                     onClick={() => setStep('ai')}
-                  />
+                  /> */}
                   <OptionRow
                     icon={<Upload className="w-5 h-5" strokeWidth={1.8} />}
                     label="Upload dokumen"
@@ -275,11 +275,10 @@ function CreateTemplateSheet({
                         <button
                           key={topic}
                           onClick={() => setAiTopic(topic)}
-                          className={`h-7 px-2.5 rounded-full text-[11px] font-medium border transition-colors ${
-                            aiTopic === topic
+                          className={`h-7 px-2.5 rounded-full text-[11px] font-medium border transition-colors ${aiTopic === topic
                               ? 'bg-primary-blue text-white border-primary-blue'
                               : 'border-primary-blue/30 text-primary-blue bg-primary-blue/5'
-                          }`}
+                            }`}
                         >
                           {topic}
                         </button>
@@ -434,24 +433,21 @@ export default function InspectionsList() {
         <div className="mt-3 flex rounded-xl p-[3px] h-10 gap-[3px] bg-foreground/[0.07]">
           <button
             onClick={() => setActiveTab('templates')}
-            className={`flex-1 rounded-[9px] text-[13px] font-medium transition-colors ${
-              activeTab === 'templates' ? 'bg-primary-blue text-white shadow-sm' : 'text-muted-foreground'
-            }`}
+            className={`flex-1 rounded-[9px] text-[13px] font-medium transition-colors ${activeTab === 'templates' ? 'bg-primary-blue text-white shadow-sm' : 'text-muted-foreground'
+              }`}
           >
             Templates
           </button>
           <button
             onClick={() => setActiveTab('progress')}
-            className={`flex-1 rounded-[9px] text-[13px] font-medium transition-colors inline-flex items-center justify-center gap-1 ${
-              activeTab === 'progress' ? 'bg-primary-blue text-white shadow-sm' : 'text-muted-foreground'
-            }`}
+            className={`flex-1 rounded-[9px] text-[13px] font-medium transition-colors inline-flex items-center justify-center gap-1 ${activeTab === 'progress' ? 'bg-primary-blue text-white shadow-sm' : 'text-muted-foreground'
+              }`}
           >
             Berjalan & Selesai
             {inProgressCount > 0 && (
               <span
-                className={`inline-flex h-[18px] min-w-[18px] items-center justify-center rounded-full text-[10px] px-1 ${
-                  activeTab === 'progress' ? 'bg-white/25 text-white' : 'bg-primary-blue/15 text-primary-blue'
-                }`}
+                className={`inline-flex h-[18px] min-w-[18px] items-center justify-center rounded-full text-[10px] px-1 ${activeTab === 'progress' ? 'bg-white/25 text-white' : 'bg-primary-blue/15 text-primary-blue'
+                  }`}
               >
                 {inProgressCount}
               </span>
@@ -728,16 +724,16 @@ export default function InspectionsList() {
         inspection={
           selectedInspection
             ? {
-                id: selectedInspection.id,
-                title: selectedInspection.title,
-                site: selectedInspection.site,
-                assignee: selectedInspection.assignee,
-                dueDate: selectedInspection.dueDate,
-                templateName: selectedInspection.templateName,
-                status: selectedInspection.status as InspectionDetailMeta['status'],
-                progress: selectedInspection.progress,
-                lastSynced: selectedInspection.lastSynced,
-              }
+              id: selectedInspection.id,
+              title: selectedInspection.title,
+              site: selectedInspection.site,
+              assignee: selectedInspection.assignee,
+              dueDate: selectedInspection.dueDate,
+              templateName: selectedInspection.templateName,
+              status: selectedInspection.status as InspectionDetailMeta['status'],
+              progress: selectedInspection.progress,
+              lastSynced: selectedInspection.lastSynced,
+            }
             : null
         }
         onClose={() => setSelectedInspection(null)}

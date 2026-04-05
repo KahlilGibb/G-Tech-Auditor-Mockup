@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router';
-import { Home, ClipboardList, CheckSquare, GraduationCap, Menu } from 'lucide-react';
+import { Home, ClipboardList, CheckSquare, GraduationCap, Menu, BookOpenCheck } from 'lucide-react';
 import { motion } from 'motion/react';
 import { canUseActions } from '../lib/appConfig';
 
@@ -19,11 +19,12 @@ const MORE_SUB_PATHS = [
 ];
 
 const navItems = [
-  { to: '/app/home',        icon: Home,          label: 'Home',        end: true  },
+  { to: '/app/home', icon: Home, label: 'Home', end: true },
   { to: '/app/inspections', icon: ClipboardList, label: 'Inspections', end: false },
-  { to: '/app/actions',     icon: CheckSquare,   label: 'Actions',     end: false },
-  { to: '/app/training',    icon: GraduationCap, label: 'Training',    end: false },
-  { to: '/app/more',        icon: Menu,          label: 'More',        end: false },
+  { to: '/app/cps', icon: BookOpenCheck, label: 'CPS', end: false },
+  { to: '/app/actions', icon: CheckSquare, label: 'Actions', end: false },
+  { to: '/app/training', icon: GraduationCap, label: 'Training', end: false },
+  { to: '/app/more', icon: Menu, label: 'More', end: false },
 ];
 
 export function BottomNav() {
@@ -48,7 +49,7 @@ export function BottomNav() {
       <div className="flex items-center justify-around px-1 py-2">
         {visibleItems.map(item => {
           const active = isActive(item.to, item.end);
-          const Icon   = item.icon;
+          const Icon = item.icon;
 
           return (
             <NavLink
@@ -71,9 +72,8 @@ export function BottomNav() {
 
               {/* Label */}
               <span
-                className={`text-[10px] leading-none transition-colors duration-150 ${
-                  active ? 'text-primary-blue font-medium' : 'text-muted-foreground'
-                }`}
+                className={`text-[10px] leading-none transition-colors duration-150 ${active ? 'text-primary-blue font-medium' : 'text-muted-foreground'
+                  }`}
               >
                 {item.label}
               </span>
