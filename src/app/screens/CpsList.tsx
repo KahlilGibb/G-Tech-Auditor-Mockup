@@ -24,6 +24,40 @@ import {
 } from '../lib/inspectionData';
 import { getInspectionEntryRoute } from '../lib/inspectionRoutes';
 
+type CpsStatus = 'Semua' | 'Dinilai' | 'Belum Dinilai';
+const CPS_MOCK = [
+  {
+    id: 'cps-1',
+    title: 'Penilaian CPS Minggu 1',
+    site: 'Dealer Sunter',
+    score: 0.75,
+    scoreNote: 'Nulis tanggal cap salah, kirimnya telat tanpa info',
+    date: '3 Mar 2026',
+    templateName: 'Laporan Mingguan CPS',
+    status: 'Dinilai',
+  },
+  {
+    id: 'cps-2',
+    title: 'Penilaian CPS Minggu 2',
+    site: 'Dealer Kelapa Gading',
+    score: 0.5,
+    scoreNote: 'Gada cap tanggal',
+    date: '10 Mar 2026',
+    templateName: 'Laporan Mingguan CPS',
+    status: 'Dinilai',
+  },
+  {
+    id: 'cps-3',
+    title: 'Penilaian CPS Minggu 3',
+    site: 'Dealer PIK',
+    score: 0,
+    scoreNote: 'Tidak ngumpulin diminggu itu',
+    date: '17 Mar 2026',
+    templateName: 'Laporan Mingguan CPS',
+    status: 'Dinilai',
+  }
+];
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 type Tab = 'templates' | 'progress';
@@ -69,9 +103,9 @@ const TEMPLATE_SEED: TemplateItem[] = [
   },
 ];
 
-const inspectionItems = INSPECTION_SUMMARIES;
+const cpsItems = CPS_MOCK;
 
-const progressFilters: Array<InspectionStatus | 'All'> = ['All', 'In Progress', 'Complete', 'Draft', 'Overdue'];
+const progressFilters: Array<CpsStatus> = ['Semua', 'Dinilai', 'Belum Dinilai'];
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -309,12 +343,12 @@ function CreateTemplateSheet({
 
 // ─── Main screen ──────────────────────────────────────────────────────────────
 
-export default function InspectionsList() {
+export default function CpsList() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<Tab>('templates');
   const [templateQuery, setTemplateQuery] = useState('');
   const [progressQuery, setProgressQuery] = useState('');
-  const [activeFilter, setActiveFilter] = useState<InspectionStatus | 'All'>('All');
+  const [activeFilter, setActiveFilter] = useState<CpsStatus>('Semua');
 
   // Template mutable state (supports duplicate + archive)
   const [templateItems, setTemplateItems] = useState<TemplateItem[]>(TEMPLATE_SEED);
@@ -361,17 +395,17 @@ export default function InspectionsList() {
 
   const filteredInspections = useMemo(() => {
     const keyword = progressQuery.toLowerCase();
-    return inspectionItems.filter((item) => {
+    return cpsItems.filter((item) => {
       const matchesSearch =
         item.title.toLowerCase().includes(keyword) ||
         item.site.toLowerCase().includes(keyword) ||
         item.templateName.toLowerCase().includes(keyword);
-      const matchesFilter = activeFilter === 'All' || item.status === activeFilter;
+      const matchesFilter = activeFilter === 'Semua' || item.status === activeFilter;
       return matchesSearch && matchesFilter;
     });
   }, [progressQuery, activeFilter]);
 
-  const inProgressCount = inspectionItems.filter((item) => item.status === 'In Progress').length;
+  const inProgressCount = cpsItems.filter((item) => item.status === 'Belum Dinilai').length;
 
   // Handler: duplicate a template
   function handleDuplicateTemplate(id: string) {
@@ -402,20 +436,7 @@ export default function InspectionsList() {
     navigate(`/app/inspections/${insp.id}/title`);
   }
 
-  // Handler: "Lanjutkan Inspeksi" / "Lihat Laporan" tapped inside InspectionDetailsSheet
-  function handleContinueInspection(id: string) {
-    const item = inspectionItems.find((inspection) => inspection.id === id);
-    if (!item) {
-      navigate(`/app/inspections/${id}`);
-      return;
-    }
-    navigate(getInspectionEntryRoute(item));
-  }
 
-  // Handler: "Duplikat" tapped inside InspectionDetailsSheet
-  function handleDuplicateInspection(_id: string) {
-    // no-op for demo
-  }
 
   return (
     <div className="bg-background min-h-full">
@@ -423,7 +444,7 @@ export default function InspectionsList() {
       {/* ── Sticky Header ─────────────────────────────────────── */}
       <div className="sticky top-0 z-30 bg-card/95 backdrop-blur-lg border-b border-divider/50 px-4 status-bar-aware pb-3">
         <div className="flex items-center justify-between">
-          <h1 className="text-[17px] font-semibold tracking-tight">Inspections</h1>
+          <h1 className="text-[17px] font-semibold tracking-tight">CPS</h1>
           <button className="h-8 px-3 rounded-lg border border-divider/60 text-[12px] text-muted-foreground">
             Filter
           </button>
@@ -443,7 +464,7 @@ export default function InspectionsList() {
             className={`flex-1 rounded-[9px] text-[13px] font-medium transition-colors inline-flex items-center justify-center gap-1 ${activeTab === 'progress' ? 'bg-primary-blue text-white shadow-sm' : 'text-muted-foreground'
               }`}
           >
-            Berjalan & Selesai
+            Riwayat Penilaian
             {inProgressCount > 0 && (
               <span
                 className={`inline-flex h-[18px] min-w-[18px] items-center justify-center rounded-full text-[10px] px-1 ${activeTab === 'progress' ? 'bg-white/25 text-white' : 'bg-primary-blue/15 text-primary-blue'
@@ -600,8 +621,8 @@ export default function InspectionsList() {
             <ScrollChipsRow
               items={progressFilters}
               activeItem={activeFilter}
-              onSelect={(item) => setActiveFilter(item as InspectionStatus | 'All')}
-              ariaLabel="Filter status inspeksi"
+              onSelect={(item) => setActiveFilter(item as CpsStatus)}
+              ariaLabel="Filter status CPS"
               showEdgeFade
             />
           </div>
@@ -611,45 +632,36 @@ export default function InspectionsList() {
             {filteredInspections.length > 0 ? (
               <div className="rounded-xl border border-divider/50 bg-card divide-y divide-divider/40 overflow-hidden">
                 {filteredInspections.map((item) => {
-                  const pct = Math.round((item.progress.completed / item.progress.total) * 100);
-                  const entryRoute = getInspectionEntryRoute(item);
-                  const shouldGoTitle = entryRoute.endsWith('/title');
                   return (
                     <button
                       key={item.id}
-                      onClick={() => {
-                        if (shouldGoTitle) {
-                          navigate(entryRoute);
-                          return;
-                        }
-                        setSelectedInspection(item);
-                      }}
+                      onClick={() => {}}
                       className="w-full text-left px-4 py-3.5 active:bg-black/[0.04] dark:active:bg-white/[0.06] transition-colors"
                     >
                       <div className="flex items-start gap-2 mb-1.5">
                         <p className="flex-1 text-[14px] font-semibold text-foreground">{item.title}</p>
                         <span
-                          className={`flex-shrink-0 text-[10px] font-semibold px-2 py-[3px] rounded-full mt-0.5 ${statusTone(item.status)}`}
+                          className={`flex-shrink-0 text-[10px] font-semibold px-2 py-[3px] rounded-full mt-0.5 bg-primary-blue/10 text-primary-blue`}
                         >
-                          {statusLabel(item.status)}
+                          {item.status}
                         </span>
                       </div>
                       <p className="text-[12px] text-muted-foreground line-clamp-1">
-                        {item.site} · {item.templateName}
+                        {item.site}
                       </p>
-                      <div className="mt-2 flex items-center gap-2">
-                        <div className="flex-1 h-1 rounded-full bg-secondary overflow-hidden">
-                          <div
-                            className={`h-full rounded-full ${progressBarColor(item.status)}`}
-                            style={{ width: `${pct}%` }}
-                          />
+                      <div className="mt-2.5 p-2.5 rounded-xl bg-secondary/50 flex flex-col gap-1">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[12px] font-medium text-foreground">Nilai Pencapaian:</span>
+                          <span className={`text-[15px] font-bold ${item.score === 0 ? 'text-danger-red' : item.score === 0.5 ? 'text-warning-amber' : 'text-success-green'}`}>
+                            {item.score}
+                          </span>
                         </div>
-                        <span className="text-[11px] text-muted-foreground tabular-nums">
-                          {item.progress.completed}/{item.progress.total}
+                        <span className="text-[11px] text-muted-foreground tabular-nums leading-snug">
+                          Catatan: {item.scoreNote}
                         </span>
                       </div>
-                      <p className="text-[11px] text-muted-foreground mt-1.5">
-                        {item.assignee} · Tenggat {item.dueDate}
+                      <p className="text-[11px] text-muted-foreground mt-2">
+                        Diperbarui {item.date}
                       </p>
                     </button>
                   );
@@ -719,27 +731,6 @@ export default function InspectionsList() {
         onStart={handleFinalStart}
       />
 
-      {/* Inspection Details */}
-      <InspectionDetailsSheet
-        inspection={
-          selectedInspection
-            ? {
-              id: selectedInspection.id,
-              title: selectedInspection.title,
-              site: selectedInspection.site,
-              assignee: selectedInspection.assignee,
-              dueDate: selectedInspection.dueDate,
-              templateName: selectedInspection.templateName,
-              status: selectedInspection.status as InspectionDetailMeta['status'],
-              progress: selectedInspection.progress,
-              lastSynced: selectedInspection.lastSynced,
-            }
-            : null
-        }
-        onClose={() => setSelectedInspection(null)}
-        onContinue={handleContinueInspection}
-        onDuplicate={handleDuplicateInspection}
-      />
     </div>
   );
 }

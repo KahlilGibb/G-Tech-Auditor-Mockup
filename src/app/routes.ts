@@ -6,6 +6,7 @@ import LoginGate from "./screens/LoginGate";
 import MainLayout from "./components/MainLayout";
 import Home from "./screens/Home";
 import InspectionsList from "./screens/InspectionsList";
+import CpsList from "./screens/CpsList";
 import CreateTemplate from "./screens/CreateTemplate";
 import TemplateBuilder from "./screens/TemplateBuilder";
 import TemplateEditor from "./screens/TemplateEditor";
@@ -61,6 +62,7 @@ export const router = createBrowserRouter([
       { index: true, Component: Home },
       { path: "home", Component: Home },
       { path: "inspections", Component: InspectionsList },
+      { path: "cps", Component: CpsList },
       { path: "inspections/template", Component: CreateTemplate },
       { path: "templates/new", Component: TemplateBuilder },
       { path: "templates/:id/edit", Component: TemplateEditor },

@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from 'react-router';
-import { ArrowLeft, CheckCircle2, ChevronRight, Circle, FileText, Wrench, Car, Armchair, Flag } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, ChevronRight, Circle, FileText, Wrench, Flag, Store, Coffee } from 'lucide-react';
 import { INSPECTION_SUMMARIES } from '../lib/inspectionData';
 import { getInspection } from '../lib/inspectionStore';
 
@@ -20,8 +20,8 @@ type Section = {
 const sections: Section[] = [
   {
     id: '1',
-    title: 'Data Kendaraan',
-    subtitle: 'Identitas unit, kilometer, dan nomor rangka',
+    title: 'Data Dealer',
+    subtitle: 'Informasi dasar dealer dan manajemen',
     answered: 1,
     total: 1,
     flagged: 0,
@@ -31,30 +31,30 @@ const sections: Section[] = [
   },
   {
     id: '2',
-    title: 'Eksterior',
-    subtitle: 'Lampu, kaca, body panel, dan ban',
+    title: 'Area Showroom',
+    subtitle: 'Kebersihan lantai, display unit, dan pencahayaan',
     answered: 6,
     total: 6,
     flagged: 1,
     status: 'completed',
     route: 'questions',
-    icon: Car,
+    icon: Store,
   },
   {
     id: '3',
-    title: 'Interior',
-    subtitle: 'Dashboard, jok, AC, dan kelistrikan kabin',
+    title: 'Ruang Tunggu',
+    subtitle: 'Kenyamanan AC, sofa, dan fasilitas tamu',
     answered: 3,
     total: 6,
     flagged: 0,
     status: 'in-progress',
     route: 'questions',
-    icon: Armchair,
+    icon: Coffee,
   },
   {
     id: '4',
-    title: 'Mesin',
-    subtitle: 'Kebocoran, oli, fan belt, dan suara mesin',
+    title: 'Service Bay',
+    subtitle: 'Penerapan 5R, kebersihan, dan APD teknisi',
     answered: 0,
     total: 5,
     flagged: 0,

@@ -11,7 +11,6 @@ import {
   Settings2,
   PenLine,
   MapPin,
-  Fuel,
 } from 'lucide-react';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -262,18 +261,17 @@ function SectionProgress({ current, total }: { current: number; total: number })
 
 // ─── Static option data ───────────────────────────────────────────────────────
 
-const carBrands     = ['Toyota', 'Honda', 'Mitsubishi', 'Daihatsu', 'Suzuki', 'Nissan', 'Mazda', 'Hyundai', 'Kia', 'BMW', 'Mercedes-Benz', 'Lainnya'];
-const fuelTypes     = ['Bensin', 'Diesel', 'Hybrid', 'Listrik'];
-const transmissions = ['Manual', 'Otomatis (AT)', 'CVT'];
-const colors        = ['Putih', 'Hitam', 'Silver', 'Abu-abu', 'Merah', 'Biru', 'Coklat', 'Lainnya'];
-const fuelLevels    = ['E', '1/4', '1/2', '3/4', 'F'];
-const years         = Array.from({ length: 20 }, (_, i) => String(new Date().getFullYear() - i));
+const dealerTypes   = ['1S (Sales)', '2S (Service & Sparepart)', '3S (Sales, Service, Sparepart)'];
+const dealerGrades  = ['Grade A', 'Grade B', 'Grade C', 'Grade D'];
+const buildingStats = ['Sewa', 'Milik Sendiri'];
+const trafficTiers  = ['Rendah', 'Sedang', 'Tinggi', 'Sangat Tinggi'];
+const capacityLevels = ['Kosong', 'Lancar', 'Normal', 'Padat', 'Overload'];
 
-const fuelBarColor: Record<string, string> = {
-  E: '#EF4444', '1/4': '#F59E0B', '1/2': '#F59E0B', '3/4': '#10B981', F: '#10B981',
+const capacityBarColor: Record<string, string> = {
+  Kosong: '#10B981', Lancar: '#10B981', Normal: '#F59E0B', Padat: '#F59E0B', Overload: '#EF4444',
 };
-const fuelPctMap: Record<string, number> = {
-  E: 4, '1/4': 25, '1/2': 50, '3/4': 75, F: 100,
+const capacityPctMap: Record<string, number> = {
+  Kosong: 10, Lancar: 35, Normal: 60, Padat: 85, Overload: 100,
 };
 
 // ─── Main Screen ──────────────────────────────────────────────────────────────
@@ -285,10 +283,10 @@ export default function FormPage() {
   // Active field for the actions sheet (null = sheet closed)
   const [activeField, setActiveField] = useState<string | null>(null);
 
-  const [vehicle, setVehicle] = useState({
-    plate: '', vin: '', brand: '', model: '',
-    year: '', color: '', odometer: '', fuel: '',
-    transmission: '', fuelLevel: '3/4',
+  const [dealer, setDealer] = useState({
+    picName: '', picTitle: '', type: '', grade: '',
+    employees: '', building: '', traffic: '', phone: '',
+    capacityLevel: 'Normal', rating: '',
   });
   const [inspection, setInspection] = useState({
     dealerName: '',
@@ -298,7 +296,7 @@ export default function FormPage() {
     date: `${new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })} pukul ${new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })}`,
   });
 
-  const fuelPct = fuelPctMap[vehicle.fuelLevel] ?? 75;
+  const capacityPct = capacityPctMap[dealer.capacityLevel] ?? 60;
 
   function open(label: string) {
     setActiveField(label);
@@ -408,81 +406,78 @@ export default function FormPage() {
           </FieldGroup>
         </motion.div>
 
-        {/* ── Data Kendaraan ─────────────────────────────────────────── */}
+        {/* ── Data Detail Dealer ─────────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.28, delay: 0.10 }}
         >
-          <FieldGroup title="Data Kendaraan">
-            {/* License plate — big monospace input */}
+          <FieldGroup title="Data Detail Dealer">
+            {/* PIC Name — Big input */}
             <div className="px-4 py-3.5">
               <div className="flex items-center gap-1 mb-2">
                 <span className="text-danger-red text-[12px] leading-none font-medium">*</span>
-                <span className="text-[12px] font-medium text-muted-foreground">No. Polisi</span>
+                <span className="text-[12px] font-medium text-muted-foreground">Nama PIC Dealer</span>
               </div>
               <input
                 type="text"
-                placeholder="B 1234 ABC"
-                value={vehicle.plate}
-                onChange={e => setVehicle({ ...vehicle, plate: e.target.value.toUpperCase() })}
-                className="w-full px-4 py-2.5 rounded-xl text-center tracking-[0.22em] font-bold text-[16px] uppercase text-foreground focus:outline-none bg-surface border border-divider"
-                style={{
-                  fontFamily: 'monospace',
-                }}
+                placeholder="ANDI MULIMAN"
+                value={dealer.picName}
+                onChange={e => setDealer({ ...dealer, picName: e.target.value.toUpperCase() })}
+                className="w-full px-4 py-2.5 rounded-xl text-center font-bold text-[16px] uppercase text-foreground focus:outline-none bg-surface border border-divider"
               />
             </div>
-            <SelectRow label="Merek"       value={vehicle.brand}        onChange={v => setVehicle({ ...vehicle, brand: v })}        options={carBrands}    required onActionsOpen={() => open('Merek')}       />
-            <FieldRow  label="Model"       value={vehicle.model}        onChange={v => setVehicle({ ...vehicle, model: v })}        placeholder="Avanza, CR-V..." required onActionsOpen={() => open('Model')}       />
-            <SelectRow label="Tahun"       value={vehicle.year}         onChange={v => setVehicle({ ...vehicle, year: v })}         options={years}        required onActionsOpen={() => open('Tahun')}       />
-            <SelectRow label="Warna"       value={vehicle.color}        onChange={v => setVehicle({ ...vehicle, color: v })}        options={colors}               onActionsOpen={() => open('Warna')}       />
-            <SelectRow label="Bahan Bakar" value={vehicle.fuel}         onChange={v => setVehicle({ ...vehicle, fuel: v })}         options={fuelTypes}            onActionsOpen={() => open('Bahan Bakar')} />
-            <SelectRow label="Transmisi"   value={vehicle.transmission} onChange={v => setVehicle({ ...vehicle, transmission: v })} options={transmissions}         onActionsOpen={() => open('Transmisi')}   />
-            <FieldRow  label="No. Rangka (VIN)" value={vehicle.vin}    onChange={v => setVehicle({ ...vehicle, vin: v.toUpperCase() })} placeholder="MHKF1GH3..." onActionsOpen={() => open('No. Rangka')} />
+            <FieldRow  label="Jabatan"           value={dealer.picTitle}      onChange={v => setDealer({ ...dealer, picTitle: v })}       placeholder="Kacab / Service Manager" required onActionsOpen={() => open('Jabatan')} />
+            <SelectRow label="Tipe Dealer"       value={dealer.type}          onChange={v => setDealer({ ...dealer, type: v })}           options={dealerTypes}   required onActionsOpen={() => open('Tipe Dealer')}   />
+            <SelectRow label="Grade Dealer"      value={dealer.grade}         onChange={v => setDealer({ ...dealer, grade: v })}          options={dealerGrades}  required onActionsOpen={() => open('Grade Dealer')}  />
+            <SelectRow label="Status Bangunan"   value={dealer.building}      onChange={v => setDealer({ ...dealer, building: v })}       options={buildingStats}          onActionsOpen={() => open('Status Bangunan')} />
+            <SelectRow label="Tingkat Traffic"   value={dealer.traffic}       onChange={v => setDealer({ ...dealer, traffic: v })}        options={trafficTiers}           onActionsOpen={() => open('Tingkat Traffic')} />
+            <FieldRow  label="Jumlah Karyawan"   value={dealer.employees}     onChange={v => setDealer({ ...dealer, employees: v })}      placeholder="120"                onActionsOpen={() => open('Jumlah Karyawan')} />
+            <FieldRow  label="No. Telepon"       value={dealer.phone}         onChange={v => setDealer({ ...dealer, phone: v })}          placeholder="021-..."            onActionsOpen={() => open('No. Telepon')} />
           </FieldGroup>
         </motion.div>
 
-        {/* ── Kondisi Saat Inspeksi ──────────────────────────────────── */}
+        {/* ── Operasional Saat Inspeksi ──────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.28, delay: 0.16 }}
         >
-          <FieldGroup title="Kondisi Saat Inspeksi">
+          <FieldGroup title="Operasional Saat Inspeksi">
             <FieldRow
-              label="Odometer (KM)"
-              value={vehicle.odometer}
-              onChange={v => setVehicle({ ...vehicle, odometer: v })}
-              placeholder="45.000"
+              label="Rating Kepatuhan Bulan Lalu"
+              value={dealer.rating}
+              onChange={v => setDealer({ ...dealer, rating: v })}
+              placeholder="85%"
               required
-              onActionsOpen={() => open('Odometer')}
+              onActionsOpen={() => open('Rating Kepatuhan')}
             />
 
-            {/* Fuel level — inline segmented selector */}
+            {/* Capacity level — inline segmented selector */}
             <div className="px-4 py-3.5">
               <div className="flex items-center justify-between mb-2.5">
-                <span className="text-[12px] font-medium text-muted-foreground">Level BBM</span>
+                <span className="text-[12px] font-medium text-muted-foreground">Beban Bengkel (Capacity)</span>
                 <button
-                  onClick={() => open('Level BBM')}
+                  onClick={() => open('Beban Bengkel')}
                   className="w-7 h-7 rounded-lg flex items-center justify-center active:bg-secondary transition-colors bg-surface"
-                  aria-label="Aksi untuk Level BBM"
+                  aria-label="Aksi untuk Beban Bengkel"
                 >
                   <Ellipsis className="w-3.5 h-3.5 text-muted-foreground" strokeWidth={2} />
                 </button>
               </div>
 
               {/* Level buttons */}
-              <div className="flex gap-1.5 mb-2.5">
-                {fuelLevels.map(level => (
+              <div className="flex gap-1 mb-2.5 overflow-x-auto scrollbar-hide">
+                {capacityLevels.map(level => (
                   <button
                     key={level}
-                    onClick={() => setVehicle({ ...vehicle, fuelLevel: level })}
-                    className="flex-1 py-2 rounded-xl text-[12px] font-semibold transition-all active:scale-95"
+                    onClick={() => setDealer({ ...dealer, capacityLevel: level })}
+                    className="flex-1 min-w-[50px] py-2 rounded-xl text-[10px] font-semibold transition-all active:scale-95"
                     style={{
-                      background: vehicle.fuelLevel === level ? '#2563EB' : undefined,
-                      color:      vehicle.fuelLevel === level ? '#FFFFFF' : undefined,
+                      background: dealer.capacityLevel === level ? '#2563EB' : undefined,
+                      color:      dealer.capacityLevel === level ? '#FFFFFF' : undefined,
                     }}
-                    {...(vehicle.fuelLevel !== level ? { className: 'flex-1 py-2 rounded-xl text-[12px] font-semibold transition-all active:scale-95 bg-secondary text-muted-foreground' } : {})}
+                    {...(dealer.capacityLevel !== level ? { className: 'flex-1 min-w-[50px] py-2 rounded-xl text-[10px] font-semibold transition-all active:scale-95 bg-secondary text-muted-foreground' } : {})}
                   >
                     {level}
                   </button>
@@ -491,17 +486,16 @@ export default function FormPage() {
 
               {/* Bar */}
               <div className="flex items-center gap-2.5">
-                <Fuel className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />
                 <div className="flex-1 h-2 rounded-full overflow-hidden bg-secondary">
                   <motion.div
-                    animate={{ width: `${fuelPct}%` }}
+                    animate={{ width: `${capacityPct}%` }}
                     transition={{ duration: 0.5, ease: 'easeOut' }}
                     className="h-full rounded-full"
-                    style={{ background: fuelBarColor[vehicle.fuelLevel] }}
+                    style={{ background: capacityBarColor[dealer.capacityLevel] }}
                   />
                 </div>
-                <span className="text-[11px] font-semibold text-muted-foreground w-6 text-right tabular-nums">
-                  {vehicle.fuelLevel}
+                <span className="text-[11px] font-semibold text-muted-foreground w-12 text-right tabular-nums">
+                  {dealer.capacityLevel}
                 </span>
               </div>
             </div>
@@ -522,7 +516,7 @@ export default function FormPage() {
       >
         {/* Progress meta */}
         <div className="flex items-center justify-between mb-1.5">
-          <span className="text-[12px] text-muted-foreground">Seksi 1 dari 5 — Data Kendaraan</span>
+          <span className="text-[12px] text-muted-foreground">Seksi 1 dari 5 — Data Dealer</span>
         </div>
         <SectionProgress current={1} total={5} />
 

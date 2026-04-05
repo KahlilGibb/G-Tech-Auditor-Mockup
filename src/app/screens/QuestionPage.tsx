@@ -20,43 +20,43 @@ interface Question {
 }
 
 const allQuestions: Question[] = [
-  // Eksterior
-  { id: 'e1', section: 'Eksterior', text: 'Apakah semua lampu eksterior berfungsi? (Depan, Belakang, Sein)', hint: 'Periksa lampu utama, rem, mundur, dan sein kanan-kiri' },
-  { id: 'e2', section: 'Eksterior', text: 'Apakah kaca depan bebas dari retak atau kerusakan?', hint: 'Perhatikan area pandang langsung pengemudi', requiresPhoto: true },
-  { id: 'e3', section: 'Eksterior', text: 'Apakah kondisi cat dan body kendaraan baik (tidak penyok/goresan/karat)?', requiresPhoto: true },
-  { id: 'e4', section: 'Eksterior', text: 'Apakah keempat ban dalam kondisi baik dan tekanan sesuai standar?', hint: 'Tapak ban minimal 1.6mm, tidak ada benjolan' },
-  { id: 'e5', section: 'Eksterior', text: 'Apakah spion kanan, kiri, dan tengah berfungsi dan tidak rusak?' },
-  { id: 'e6', section: 'Eksterior', text: 'Apakah wiper depan/belakang dan washer berfungsi dengan baik?' },
-  // Interior
-  { id: 'i1', section: 'Interior', text: 'Apakah dashboard dan semua indikator berfungsi normal?', hint: 'Tidak ada warning light yang menyala saat mesin hidup' },
-  { id: 'i2', section: 'Interior', text: 'Apakah sistem AC bekerja dan mendinginkan dengan baik?', hint: 'Uji pada semua kecepatan blower, pastikan dingin merata' },
-  { id: 'i3', section: 'Interior', text: 'Apakah semua sabuk pengaman terkunci dan berfungsi dengan benar?' },
-  { id: 'i4', section: 'Interior', text: 'Apakah kondisi jok, karpet, dan interior dalam keadaan bersih dan tidak rusak?', requiresPhoto: true },
-  { id: 'i5', section: 'Interior', text: 'Apakah sistem audio, layar, dan fitur konektivitas (USB, Bluetooth) berfungsi?' },
-  { id: 'i6', section: 'Interior', text: 'Apakah pedal gas, rem, dan kopling terasa normal (tidak berat atau selip)?' },
-  // Mesin
-  { id: 'm1', section: 'Mesin', text: 'Apakah mesin menyala normal dan suara halus tanpa bunyi abnormal?', hint: 'Dengarkan ketukan, derik, atau suara bising', requiresPhoto: true },
-  { id: 'm2', section: 'Mesin', text: 'Apakah tidak ada kebocoran oli, air radiator, atau cairan lain di ruang mesin?', requiresPhoto: true },
-  { id: 'm3', section: 'Mesin', text: 'Apakah level oli mesin, air radiator, dan minyak rem dalam kondisi cukup?' },
-  { id: 'm4', section: 'Mesin', text: 'Apakah sabuk mesin (timing/alternator) dalam kondisi baik, tidak retak/longgar?' },
-  { id: 'm5', section: 'Mesin', text: 'Apakah temperatur mesin stabil dan sistem pendingin berfungsi baik?' },
-  // Kaki-kaki
-  { id: 'k1', section: 'Kaki-kaki', text: 'Apakah sistem pengereman (depan dan belakang) berfungsi dengan efektif?', hint: 'Periksa ketebalan kampas dan cakram/tromol' },
-  { id: 'k2', section: 'Kaki-kaki', text: 'Apakah tidak ada bunyi abnormal dari suspensi saat jalan tidak rata?' },
-  { id: 'k3', section: 'Kaki-kaki', text: 'Apakah setir lurus dan tidak ada getaran, tarikan, atau free play berlebih?', hint: 'Uji pada kecepatan 40-60 km/h di jalan lurus' },
-  { id: 'k4', section: 'Kaki-kaki', text: 'Apakah ban serep tersedia, terpasang dengan baik, dan layak pakai?' },
-  { id: 'k5', section: 'Kaki-kaki', text: 'Apakah pelek (velg) tidak retak, penyok, atau terlihat berkarat parah?' },
+  // Area Showroom
+  { id: 'e1', section: 'Area Showroom', text: 'Apakah lantai showroom bersih dan bebas dari noda/sampah?', hint: 'Perhatikan area sekitar unit display' },
+  { id: 'e2', section: 'Area Showroom', text: 'Apakah unit display kendaraan dalam kondisi bersih, mengkilap, dan bebas debu?', requiresPhoto: true },
+  { id: 'e3', section: 'Area Showroom', text: 'Apakah pencahayaan showroom (lampu utama, spotlight) berfungsi 100% dan cukup terang?', requiresPhoto: true },
+  { id: 'e4', section: 'Area Showroom', text: 'Apakah brosur dan materi promosi tersusun rapi di rak display?', hint: 'Pastikan stok brosur masih tersedia dan relevan' },
+  { id: 'e5', section: 'Area Showroom', text: 'Apakah meja resepsionis bersih, wangi, dan petugas front desk stand by?' },
+  { id: 'e6', section: 'Area Showroom', text: 'Apakah kaca fasad dan pintu masuk utama bebas dari bercak tangan atau debu tebal?' },
+  // Ruang Tunggu
+  { id: 'i1', section: 'Ruang Tunggu', text: 'Apakah suhu AC di ruang tunggu sejuk dan sirkulasi udara terasa nyaman?', hint: 'Tidak ada keluhan pelanggan terkait suhu ruangan' },
+  { id: 'i2', section: 'Ruang Tunggu', text: 'Apakah sofa/kursi tamu dalam keadaan bersih, tidak bernoda, dan tertata rapi?', hint: 'Uji kenyamanan fasilitas', requiresPhoto: true },
+  { id: 'i3', section: 'Ruang Tunggu', text: 'Apakah fasilitas hiburan (TV) dan koneksi Wi-Fi untuk tamu berfungsi normal?' },
+  { id: 'i4', section: 'Ruang Tunggu', text: 'Apakah snack corner/minuman tertata rapi, bersih, dan stoknya tersedia?', requiresPhoto: true },
+  { id: 'i5', section: 'Ruang Tunggu', text: 'Apakah area bermain anak (kids corner) bersih, rapi, dan fasilitasnya aman?' },
+  { id: 'i6', section: 'Ruang Tunggu', text: 'Apakah ruangan bebas dari bau yang tidak sedap atau pengap?' },
+  // Service Bay
+  { id: 'm1', section: 'Service Bay', text: 'Apakah lantai area service bebas dari genangan air atau tumpahan oli?', hint: 'Pastikan drainase lancar', requiresPhoto: true },
+  { id: 'm2', section: 'Service Bay', text: 'Apakah special tools dan peralatan kerja selalu dikembalikan ke toolbox merujuk standar 5R?', requiresPhoto: true },
+  { id: 'm3', section: 'Service Bay', text: 'Apakah seluruh teknisi di area bengkel mengenakan seragam dan APD lengkap?' },
+  { id: 'm4', section: 'Service Bay', text: 'Apakah jalur evakuasi, stall service, dan rambu keselamatan tidak terhalang barang?' },
+  { id: 'm5', section: 'Service Bay', text: 'Apakah limbah B3 (oli bekas, part reject) ditempatkan di wadah khusus yang aman?' },
+  // Fasilitas Umum
+  { id: 'k1', section: 'Fasilitas Umum', text: 'Apakah toilet tamu dalam kondisi kering, bersih, harum, dan kloset berfungsi baik?', hint: 'Cek ketersediaan tisu dan sabun cuci tangan' },
+  { id: 'k2', section: 'Fasilitas Umum', text: 'Apakah area parkir pelanggan tertata rapi dan jalur lalu lintas kendaraan teratur?' },
+  { id: 'k3', section: 'Fasilitas Umum', text: 'Apakah kondisi musala bersih, rapi, dan perlengkapan ibadah dirawat dengan baik?', hint: 'Periksa kebersihan area wudu' },
+  { id: 'k4', section: 'Fasilitas Umum', text: 'Apakah tong sampah luar tidak bocor, tertutup rapat, dan tidak over capacity?' },
+  { id: 'k5', section: 'Fasilitas Umum', text: 'Apakah pos keamanan tertib dan satpam menjalankan standar sapa pelanggan?' },
 ];
 
 interface AnswerState { answer: AnswerType; severity: Severity; note: string; }
 
-const sectionOrder = ['Eksterior', 'Interior', 'Mesin', 'Kaki-kaki'];
+const sectionOrder = ['Area Showroom', 'Ruang Tunggu', 'Service Bay', 'Fasilitas Umum'];
 
 const sectionMeta: Record<string, { color: string; text: string }> = {
-  'Eksterior':  { color: 'bg-primary-blue/10 text-primary-blue',   text: 'text-primary-blue' },
-  'Interior':   { color: 'bg-success-green/10 text-success-green', text: 'text-success-green' },
-  'Mesin':      { color: 'bg-warning-amber/10 text-warning-amber', text: 'text-warning-amber' },
-  'Kaki-kaki':  { color: 'bg-info-blue/10 text-info-blue',         text: 'text-info-blue' },
+  'Area Showroom':  { color: 'bg-primary-blue/10 text-primary-blue',   text: 'text-primary-blue' },
+  'Ruang Tunggu':   { color: 'bg-success-green/10 text-success-green', text: 'text-success-green' },
+  'Service Bay':    { color: 'bg-warning-amber/10 text-warning-amber', text: 'text-warning-amber' },
+  'Fasilitas Umum': { color: 'bg-info-blue/10 text-info-blue',         text: 'text-info-blue' },
 };
 
 export default function QuestionPage() {
