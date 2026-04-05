@@ -11,7 +11,7 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>('dark'); // Default to dark mode
+  const [theme, setThemeState] = useState<Theme>('light'); // Default to light mode
 
   useEffect(() => {
     // Check localStorage for saved preference
