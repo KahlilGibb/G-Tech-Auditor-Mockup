@@ -11,11 +11,19 @@
       <meta name="mobile-web-app-capable" content="yes" />
       <meta name="format-detection" content="telephone=no" />
       <title>G Tech Auditor</title>
+      <link rel="manifest" href="/manifest.json" />
     </head>
 
     <body>
       <div id="root"></div>
       <script type="module" src="/src/main.tsx"></script>
+      <script>
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/pwabuilder-sw.js');
+          });
+        }
+      </script>
     </body>
   </html>
 

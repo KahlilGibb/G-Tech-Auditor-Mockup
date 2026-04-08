@@ -1,0 +1,33 @@
+{
+  "background_color": "#0A0A0A",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "G Tech Auditor",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "G Tech Auditor",
+  "start_url": "/",
+  "theme_color": "#0A0A0A",
+  "id": "gtechauditorwpa",
+  "description": "PWA for gtech auditor",
+  "icons": [
+    {
+      "src": "/logogynetra.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logogynetra.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logogynetra.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
